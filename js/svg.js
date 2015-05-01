@@ -1,5 +1,3 @@
-
-
 window.onload = loadP;
 var clickedMouse = false;
 var startX = 0, endX = 24;
@@ -69,11 +67,8 @@ function breadthSearch() {
         current = c;
 
         if (current != 0) {
-            childList[c].classList.remove('neighbour');
             childList[c].classList.add('visited');
         }
-
-        //visited[current] = prev;
 
         var neighb = getNeighbours(current);
 
@@ -111,16 +106,15 @@ function breadthSearch() {
                     //quick exit
                     found = true;
 
-                    function path()
-                    {
-                        var x = visited[current];
+                    function path() {
+                        var x = visited[next];
 
-                        while(x != -1)
-                        {
+                        while (x != -1) {
                             childList[x].classList.add('path');
                             x = visited[x];
                         }
                     }
+
                     path();
                     break;
                 }
@@ -145,8 +139,22 @@ function breadthSearch() {
 function checkCollision(next, current, dir, num) {
     var valueOfPosition = childList[next];
 
-    if (!valueOfPosition.classList.contains('open'))
+    if (!(valueOfPosition.getAttributeNS(null, 'class') == 'open'))
         return 0;
+
+    console.log(valueOfPosition.getAttributeNS(null, 'class'));
+
+    if (valueOfPosition.getAttributeNS(null, 'class') == 'end') {
+        visited[next] = current;
+        childList[next].setAttributeNS(null, 'class', 'path');
+        return 1;
+    }
+
+    if (next == (endX - 1) * worldSizeY + endY) {
+        visited[next] = current;
+        childList[next].classList.add('path');
+        return 1;
+    }
 
     else if (num == -1) {
         visited[next] = current;
@@ -166,12 +174,6 @@ function checkCollision(next, current, dir, num) {
 
     }
     childList[next].classList.add('neighbour');
-    /*
-     check for goal node here and return 0 if found
-     */
-    if (next == (endX-1)*worldSizeY + endY) {
-        return 1;
-    }
 
     return 0;
 
@@ -190,7 +192,7 @@ function getNeighbours(current) {
     if (Math.floor(current) % worldSizeY != 0)
         neighbours[0] = current - 1;
     //DOWN
-    if (Math.floor(current - worldSizeY - 1) % (worldSizeY - 1) != 0)
+    if (Math.floor(current - worldSizeY + 1) % (worldSizeY) != 0)
         neighbours[1] = current + 1;
 
 
@@ -233,11 +235,11 @@ function loadLayout(xmlns, svg2, h, w) {
 
 function over(event) {
     if (clickedMouse) {
-        if (event.target.classList.contains('open')) {
-            event.target.classList.toggle('open');
+        if (event.target.getAttribute('class') == 'open') {
+            event.target.setAttributeNS(null, 'class', 'closed');
         }
-        else {
-            event.target.classList.toggle('open');
+        else if (event.target.getAttribute('class') == 'closed') {
+            event.target.setAttributeNS(null, 'class', 'open');
         }
 
     }
@@ -254,11 +256,11 @@ function out(event) {
 function clicked(event) {
     clickedMouse = true;
 
-    if (event.target.classList.contains('open')) {
-        event.target.classList.toggle('open');
+    if (event.target.getAttribute('class') == 'open') {
+        event.target.setAttributeNS(null, 'class', 'closed');
     }
-    else {
-        event.target.classList.toggle('open');
+    else if (event.target.getAttribute('class') == 'closed') {
+        event.target.setAttributeNS(null, 'class', 'open');
     }
 
 }

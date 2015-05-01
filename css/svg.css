@@ -29,6 +29,10 @@ rect{
     stroke: #ffffff;
 }
 
+.closed {
+
+}
+
 .path
 {
     fill: #ff997b;
