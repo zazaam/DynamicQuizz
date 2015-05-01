@@ -1,0 +1,36 @@
+rect{
+    fill: #4e4e4e;
+    stroke: #8b8b8b;
+}
+
+.open{
+    fill: #c6c6c6;
+    stroke: #ffffff;
+}
+
+.start{
+    fill: #5ee6d4;
+    stroke: #ffffff;
+}
+
+.neighbour{
+    fill: #d896ff;
+    stroke: #ffffff;
+}
+
+.visited{
+    fill: #b0ffb9;
+    stroke: #ffffff;
+}
+
+.end
+{
+    fill: #ffd093;
+    stroke: #ffffff;
+}
+
+.path
+{
+    fill: #ff997b;
+    stroke: #ffffff;
+}
